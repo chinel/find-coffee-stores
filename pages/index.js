@@ -30,6 +30,7 @@ const Home = (props) => {
             alt="hero image"
           />
         </div>
+        <h2 className={styles.heading2}>Toronto Stores</h2>
         <div className={styles.cardLayout}>
           {props.coffeeStores.map((coffeeStore) => (
             <Card
