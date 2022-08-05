@@ -3,7 +3,7 @@ import Banner from "../components/banner";
 import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Card from "../components/card";
-import coffeeStores from "../data/coffee-stores.json";
+import coffeeStoresData from "../data/coffee-stores.json";
 
 const Home = (props) => {
   const handleOnBannerBtnClick = () => {
@@ -30,18 +30,22 @@ const Home = (props) => {
             alt="hero image"
           />
         </div>
-        <h2 className={styles.heading2}>Toronto Stores</h2>
-        <div className={styles.cardLayout}>
-          {props.coffeeStores.map((coffeeStore) => (
-            <Card
-              key={coffeeStore.id}
-              name={coffeeStore.name}
-              imgUrl={coffeeStore.imgUrl}
-              href={`/coffe-store/${coffeeStore.id}`}
-              className={styles.card}
-            />
-          ))}
-        </div>
+        {props.coffeeStoresData.length > 0 && (
+          <>
+            <h2 className={styles.heading2}>Toronto Stores</h2>
+            <div className={styles.cardLayout}>
+              {props.coffeeStores.map((coffeeStore) => (
+                <Card
+                  key={coffeeStore.id}
+                  name={coffeeStore.name}
+                  imgUrl={coffeeStore.imgUrl}
+                  href={`/coffe-store/${coffeeStore.id}`}
+                  className={styles.card}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </main>
     </div>
   );
@@ -50,7 +54,7 @@ const Home = (props) => {
 export async function getStaticProps(context) {
   return {
     props: {
-      coffeeStores,
+      coffeeStores: coffeeStoresData,
     },
   };
 }
