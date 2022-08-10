@@ -2,7 +2,7 @@ import Head from "next/head";
 import Banner from "../components/banner";
 import styles from "../styles/Home.module.css";
 
-export default function Home() {
+const Home = () => {
   const handleOnBannerBtnClick = () => {
     console.log("Hi Banner button");
   };
@@ -22,4 +22,6 @@ export default function Home() {
       </main>
     </div>
   );
-}
+};
+
+export default Home;
