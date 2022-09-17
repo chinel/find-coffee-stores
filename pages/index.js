@@ -28,11 +28,20 @@ const Home = () => {
             alt="hero image"
           />
         </div>
-        <Card
-          name="Dark Horse Coffee"
-          imgUrl="/static/hero-image.png"
-          href="/coffe-store/darkhorse-coffee"
-        />
+        <div className={styles.cardLayout}>
+          <Card
+            name="Dark Horse Coffee"
+            imgUrl="/static/hero-image.png"
+            href="/coffe-store/darkhorse-coffee"
+            className={styles.card}
+          />
+          <Card
+            name="Dark Horse Coffee"
+            imgUrl="/static/hero-image.png"
+            href="/coffe-store/darkhorse-coffee"
+            className={styles.card}
+          />
+        </div>
       </main>
     </div>
   );
