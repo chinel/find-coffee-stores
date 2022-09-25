@@ -5,7 +5,7 @@ import Image from "next/image";
 import Card from "../components/card";
 import coffeeStores from "../data/coffee-stores.json";
 
-const Home = () => {
+const Home = ({ coffeeStores }) => {
   const handleOnBannerBtnClick = () => {
     console.log("Hi Banner button");
   };
@@ -45,5 +45,13 @@ const Home = () => {
     </div>
   );
 };
+
+export async function getStaticProps(context) {
+  return {
+    props: {
+      coffeeStores,
+    },
+  };
+}
 
 export default Home;
