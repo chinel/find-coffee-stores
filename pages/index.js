@@ -5,7 +5,7 @@ import Image from "next/image";
 import Card from "../components/card";
 import coffeeStores from "../data/coffee-stores.json";
 
-const Home = ({ coffeeStores }) => {
+const Home = (props) => {
   const handleOnBannerBtnClick = () => {
     console.log("Hi Banner button");
   };
@@ -31,7 +31,7 @@ const Home = ({ coffeeStores }) => {
           />
         </div>
         <div className={styles.cardLayout}>
-          {coffeeStores.map((coffeeStore) => (
+          {props.coffeeStores.map((coffeeStore) => (
             <Card
               key={coffeeStore.id}
               name={coffeeStore.name}
