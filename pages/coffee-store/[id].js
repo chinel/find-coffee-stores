@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import coffeeStoresData from "../data/coffee-stores.json";
 import styles from "../../styles/coffee-store.module.css";
 import Image from "next/image";
+import cls from "classnames";
 
 const CoffeeStore = (props) => {
   const router = useRouter();
@@ -45,15 +46,30 @@ const CoffeeStore = (props) => {
         </div>
         <div className={cls("glass", styles.col2)}>
           <div className={styles.iconWrapper}>
-            <Image src="" width={24} height={24} alt="location" />
+            <Image
+              src="/static/icons/places.svg"
+              width={24}
+              height={24}
+              alt="location"
+            />
             <p className={styles.text}>{address}</p>
           </div>
           <div className={styles.iconWrapper}>
-            <Image src="" width={24} height={24} alt="neighbourhood" />
+            <Image
+              src="/static/icons/nearMe.svg"
+              width={24}
+              height={24}
+              alt="neighbourhood"
+            />
             <p className={styles.text}>{neighbourhood}</p>
           </div>
           <div className={styles.iconWrapper}>
-            <Image src="" width={24} height={24} alt="rating" />
+            <Image
+              src="/static/icons/star.svg"
+              width={24}
+              height={24}
+              alt="rating"
+            />
             <p className={styles.text}>1</p>
           </div>
           <button className={styles.upvoteButton} onClick={handleUpvoteButton}>
