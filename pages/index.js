@@ -52,9 +52,23 @@ const Home = (props) => {
 };
 
 export async function getStaticProps(context) {
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: "fsq3ylT0NJea+xrSnW1ymZkOjff7lTY3go5tO0lt8dX3TwQ=",
+    },
+  };
+
+  const response = await fetch(
+    "https://api.foursquare.com/v3/places/search",
+    options
+  );
+  const data = await response.json();
+
   return {
     props: {
-      coffeeStores: coffeeStoresData,
+      coffeeStores: data,
     },
   };
 }
