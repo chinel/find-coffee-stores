@@ -4,6 +4,7 @@ import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Card from "../components/card";
 import coffeeStoresData from "../data/coffee-stores.json";
+import { fetchCoffeeStores } from "../lib/coffee-stores";
 
 const Home = (props) => {
   const handleOnBannerBtnClick = () => {
@@ -55,24 +56,11 @@ const Home = (props) => {
 };
 
 export async function getStaticProps(context) {
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: "fsq3ylT0NJea+xrSnW1ymZkOjff7lTY3go5tO0lt8dX3TwQ=",
-    },
-  };
-
-  const response = await fetch(
-    "https://api.foursquare.com/v3/places/search?query=coffee%20stores&ll=43.717899%2C-79.6582408",
-    options
-  );
-
-  const data = await response.json();
+  const coffeeStores = await fetchCoffeeStores();
 
   return {
     props: {
-      coffeeStores: data.result,
+      coffeeStores,
     },
   };
 }
