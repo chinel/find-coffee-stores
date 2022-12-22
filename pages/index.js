@@ -10,6 +10,7 @@ const Home = (props) => {
   const handleOnBannerBtnClick = () => {
     console.log("Hi Banner button");
   };
+
   return (
     <div className={styles.container}>
       <Head>
