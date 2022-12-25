@@ -4,11 +4,13 @@ import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Card from "../components/card";
 import coffeeStoresData from "../data/coffee-stores.json";
+import { fetchCoffeeStores } from "../lib/coffee-stores";
 
 const Home = (props) => {
   const handleOnBannerBtnClick = () => {
     console.log("Hi Banner button");
   };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -30,16 +32,19 @@ const Home = (props) => {
             alt="hero image"
           />
         </div>
-        {props.coffeeStoresData.length > 0 && (
+        {props.coffeeStores.length > 0 && (
           <>
             <h2 className={styles.heading2}>Toronto Stores</h2>
             <div className={styles.cardLayout}>
               {props.coffeeStores.map((coffeeStore) => (
                 <Card
-                  key={coffeeStore.id}
+                  key={coffeeStore.fsq_id}
                   name={coffeeStore.name}
-                  imgUrl={coffeeStore.imgUrl}
-                  href={`/coffe-store/${coffeeStore.id}`}
+                  imgUrl={
+                    coffeeStore.imgUrl ||
+                    "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80"
+                  }
+                  href={`/coffe-store/${coffeeStore.fsq_id}`}
                   className={styles.card}
                 />
               ))}
@@ -52,9 +57,11 @@ const Home = (props) => {
 };
 
 export async function getStaticProps(context) {
+  const coffeeStores = await fetchCoffeeStores();
+
   return {
     props: {
-      coffeeStores: coffeeStoresData,
+      coffeeStores,
     },
   };
 }
