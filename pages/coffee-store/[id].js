@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import coffeeStoresData from "../data/coffee-stores.json";
 import styles from "../../styles/coffee-store.module.css";
 import Image from "next/image";
 import cls from "classnames";
+import { fetchCoffeeStores } from "../lib/coffee-stores";
 
 const CoffeeStore = (props) => {
   const router = useRouter();
@@ -37,7 +37,10 @@ const CoffeeStore = (props) => {
           </div>
 
           <Image
-            src={imgUrl}
+            src={
+              imgUrl ||
+              "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80"
+            }
             alt={name}
             width={600}
             height={360}
@@ -81,19 +84,22 @@ const CoffeeStore = (props) => {
   );
 };
 
-export function getStaticProps(staticProps) {
+export async function getStaticProps(staticProps) {
   const params = staticProps.params;
+  const coffeeStores = await fetchCoffeeStores();
+
   return {
     props: {
-      coffeeStore: coffeeStoresData.find(
+      coffeeStore: coffeeStores.find(
         (coffeeStore) => coffeeStore.id.toString() === params.id
       ),
     },
   };
 }
 
-export function getStaticPaths() {
-  const paths = coffeeStoresData.map((coffeeStores) => ({
+export async function getStaticPaths() {
+  const coffeeStores = await fetchCoffeeStores();
+  const paths = coffeeStores.map((coffeeStores) => ({
     params: {
       id: coffeeStores.id.toString(),
     },
