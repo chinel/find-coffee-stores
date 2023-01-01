@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import styles from "../../styles/coffee-store.module.css";
 import Image from "next/image";
 import cls from "classnames";
-import { fetchCoffeeStores } from "../lib/coffee-stores";
+import { fetchCoffeeStores } from "../../lib/coffee-stores";
 
 const CoffeeStore = (props) => {
   const router = useRouter();
@@ -45,6 +45,7 @@ const CoffeeStore = (props) => {
             width={600}
             height={360}
             className={styles.storeImg}
+            objectFit="cover"
           />
         </div>
         <div className={cls("glass", styles.col2)}>
@@ -91,7 +92,7 @@ export async function getStaticProps(staticProps) {
   return {
     props: {
       coffeeStore: coffeeStores.find(
-        (coffeeStore) => coffeeStore.id.toString() === params.id
+        (coffeeStore) => coffeeStore.fsq_id.toString() === params.id
       ),
     },
   };
@@ -99,9 +100,9 @@ export async function getStaticProps(staticProps) {
 
 export async function getStaticPaths() {
   const coffeeStores = await fetchCoffeeStores();
-  const paths = coffeeStores.map((coffeeStores) => ({
+  const paths = coffeeStores.map((coffeeStore) => ({
     params: {
-      id: coffeeStores.id.toString(),
+      id: coffeeStore.fsq_id.toString(),
     },
   }));
   return {

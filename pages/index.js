@@ -43,7 +43,7 @@ const Home = (props) => {
                     coffeeStore.imgUrl ||
                     "https://images.unsplash.com/photo-1498804103079-a6351b050096?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=2468&q=80"
                   }
-                  href={`/coffe-store/${coffeeStore.fsq_id}`}
+                  href={`/coffee-store/${coffeeStore.fsq_id}`}
                   className={styles.card}
                 />
               ))}
