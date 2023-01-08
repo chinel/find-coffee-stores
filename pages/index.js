@@ -4,10 +4,15 @@ import styles from "../styles/Home.module.css";
 import Image from "next/image";
 import Card from "../components/card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
+import useTrackLocation from "../hooks/use-track-location";
 
 const Home = (props) => {
+  const { handleTrackLocation, latLong, locationErrorMessage } =
+    useTrackLocation();
+
+  console.log({ latLong, locationErrorMessage });
   const handleOnBannerBtnClick = () => {
-    console.log("Hi Banner button");
+    handleTrackLocation();
   };
 
   return (
