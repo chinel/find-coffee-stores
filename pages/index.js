@@ -5,6 +5,7 @@ import Image from "next/image";
 import Card from "../components/card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
 import useTrackLocation from "../hooks/use-track-location";
+import { useEffect } from "react";
 
 const Home = (props) => {
   const {
@@ -15,6 +16,21 @@ const Home = (props) => {
   } = useTrackLocation();
 
   console.log({ latLong, locationErrorMessage });
+
+  useEffect(() => {
+    const getCoffeeStores = async () => {
+      const formatLatLong = latLong.split(" ").join(",");
+      try {
+        const fetchedCoffeeStores = await fetchCoffeeStores(formatLatLong, 30);
+      } catch (error) {
+        console.log({ error });
+      }
+    };
+    if (latLong) {
+      getCoffeeStores();
+    }
+  }, [latLong]);
+
   const handleOnBannerBtnClick = () => {
     handleTrackLocation();
   };
