@@ -7,8 +7,12 @@ import { fetchCoffeeStores } from "../lib/coffee-stores";
 import useTrackLocation from "../hooks/use-track-location";
 
 const Home = (props) => {
-  const { handleTrackLocation, latLong, locationErrorMessage } =
-    useTrackLocation();
+  const {
+    handleTrackLocation,
+    latLong,
+    locationErrorMessage,
+    isFindingLocation,
+  } = useTrackLocation();
 
   console.log({ latLong, locationErrorMessage });
   const handleOnBannerBtnClick = () => {
@@ -25,9 +29,12 @@ const Home = (props) => {
 
       <main className={styles.main}>
         <Banner
-          buttonText="View stores nearby"
+          buttonText={isFindingLocation ? "Locating..." : "View stores nearby"}
           handleOnClick={handleOnBannerBtnClick}
         />
+        {locationErrorMessage && (
+          <p>Something went wrong: {locationErrorMessage}</p>
+        )}
         <div className={styles.heroImage}>
           <Image
             src="/static/hero-image.png"
@@ -37,7 +44,7 @@ const Home = (props) => {
           />
         </div>
         {props.coffeeStores.length > 0 && (
-          <>
+          <div className={styles.sectionWrapper}>
             <h2 className={styles.heading2}>Toronto Stores</h2>
             <div className={styles.cardLayout}>
               {props.coffeeStores.map((coffeeStore) => (
@@ -53,7 +60,7 @@ const Home = (props) => {
                 />
               ))}
             </div>
-          </>
+          </div>
         )}
       </main>
     </div>
