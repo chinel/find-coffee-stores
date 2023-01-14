@@ -91,11 +91,12 @@ export async function getStaticProps(staticProps) {
   const params = staticProps.params;
   const coffeeStores = await fetchCoffeeStores();
 
+  const fetchCoffeeStoreById = coffeeStores.find(
+    (coffeeStore) => coffeeStore.fsq_id.toString() === params.id
+  );
   return {
     props: {
-      coffeeStore: coffeeStores.find(
-        (coffeeStore) => coffeeStore.fsq_id.toString() === params.id
-      ),
+      coffeeStore: fetchCoffeeStoreById ? fetchCoffeeStoreById : {},
     },
   };
 }
@@ -109,7 +110,7 @@ export async function getStaticPaths() {
   }));
   return {
     paths,
-    fallback: true,
+    fallback: true, //if the page can't find the id of the item here, then check the getStaticProps function if fallback is set to true
   };
 }
 
