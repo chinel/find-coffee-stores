@@ -5,36 +5,45 @@ import Image from "next/image";
 import Card from "../components/card";
 import { fetchCoffeeStores } from "../lib/coffee-stores";
 import useTrackLocation from "../hooks/use-track-location";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ACTION_TYPES, StoreContext } from "../context/storeContext";
 
 const Home = (props) => {
+  const { dispatch, state } = useContext(StoreContext);
   const {
     handleTrackLocation,
-    latLong,
+    // latLong,
     locationErrorMessage,
     isFindingLocation,
   } = useTrackLocation();
+  const { coffeeStores } = state;
 
-  const [coffeeStores, setCoffeeStores] = useState([]);
+  // const [coffeeStores, setCoffeeStores] = useState([]);
   const [coffeeStoresError, setCoffeeStoresError] = useState(null);
 
-  console.log({ latLong, locationErrorMessage });
+  console.log({ latLong: state.latLong, locationErrorMessage });
 
   useEffect(() => {
     const getCoffeeStores = async () => {
-      const formatLatLong = latLong.split(" ").join(",");
+      const formatLatLong = state.latLong.split(" ").join(",");
       try {
         const fetchedCoffeeStores = await fetchCoffeeStores(formatLatLong, 30);
-        setCoffeeStores(fetchedCoffeeStores);
+        // setCoffeeStores(fetchedCoffeeStores);
+        dispatch({
+          type: ACTION_TYPES.SET_COFFEE_STORES,
+          payload: {
+            coffeeStores: fetchedCoffeeStores,
+          },
+        });
       } catch (error) {
         console.log({ error });
         setCoffeeStoresError(error.message);
       }
     };
-    if (latLong) {
+    if (state.latLong) {
       getCoffeeStores();
     }
-  }, [latLong]);
+  }, [dispatch, state.latLong]);
 
   const handleOnBannerBtnClick = () => {
     handleTrackLocation();
