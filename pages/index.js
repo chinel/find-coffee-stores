@@ -27,14 +27,30 @@ const Home = (props) => {
     const getCoffeeStores = async () => {
       const formatLatLong = state.latLong.split(" ").join(",");
       try {
-        const fetchedCoffeeStores = await fetchCoffeeStores(formatLatLong, 30);
+        const params = {
+          latLong: formatLatLong,
+          limit: 30,
+        };
+
+        // Convert the object into query parameters
+        const queryString = new URLSearchParams(params).toString();
+
+        // Encode the query string
+        const encodedQueryString = encodeURIComponent(queryString);
+
+        const fetchedCoffeeStores = await fetch(
+          `/api/getCoffeeStoresByLocation?${encodedQueryString}`
+        );
         // setCoffeeStores(fetchedCoffeeStores);
+        const result = await fetchedCoffeeStores.json();
+
         dispatch({
           type: ACTION_TYPES.SET_COFFEE_STORES,
           payload: {
-            coffeeStores: fetchedCoffeeStores,
+            coffeeStores: result.data,
           },
         });
+        setCoffeeStoresError("");
       } catch (error) {
         console.log({ error });
         setCoffeeStoresError(error.message);
