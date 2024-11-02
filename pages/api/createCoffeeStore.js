@@ -12,15 +12,38 @@ const table = base("coffee-stores");
 
 console.log({ table });
 
-const createCoffeeStore = (req, res) => {
+const createCoffeeStore = async (req, res) => {
   console.log({ req });
-  if (req.method !== "POST") {
+  if (req.method === "POST") {
+    //find coffee store
+    try {
+      const findCoffeeStoreRecord = await table
+        .select({
+          filterByFormula: `id="0"`,
+        })
+        .firstPage(); // You don't need to pass the callback function, if you want.
+
+      console.log({ findCoffeeStoreRecord });
+
+      if (findCoffeeStoreRecord.length !== 0) {
+        const records = findCoffeeStoreRecord.map((record) => ({
+          ...record.fields,
+        }));
+        return res.json(records);
+      } else {
+        return res.json({ message: "create a record" });
+      }
+    } catch (error) {
+      console.log("Error Finding Store...", error);
+      return res.status(500).json({ message: "Error finding store", error });
+    }
+
+    //create coffee store
+  } else {
     return res.json({
       message: "method not allowe",
     });
   }
-
-  return res.json({ message: "Hi" });
 };
 
 export default createCoffeeStore;
