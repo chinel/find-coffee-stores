@@ -19,9 +19,10 @@ const createCoffeeStore = async (req, res) => {
   if (req.method === "POST") {
     //find coffee store
     try {
+      const { id, name, address, neighbourhood, voting, imgUrl } = req.body;
       const findCoffeeStoreRecord = await table
         .select({
-          filterByFormula: `id="0"`,
+          filterByFormula: `AND(name = "${name}", address = "${address}")`,
         })
         .firstPage(); // You don't need to pass the callback function, if you want.
 
@@ -29,19 +30,20 @@ const createCoffeeStore = async (req, res) => {
 
       if (findCoffeeStoreRecord.length !== 0) {
         const records = formatCoffeeStores(findCoffeeStoreRecord);
-        return res.json(records);
+        return res.json({
+          message: "Coffee store already exists.",
+          records,
+        });
       } else {
         //create coffee store
         const newRecord = await table.create([
           {
             fields: {
-              id: "2",
-              name: "My Favourite coffee store",
-              address: "123 Sample address",
-              neighbourhood: "Same neighbourhood",
-              voting: 200,
-              imgUrl:
-                "https://live.staticflickr.com/719/33066887242_9101787d99_b.jpg",
+              name,
+              address,
+              neighbourhood,
+              voting,
+              imgUrl,
             },
           },
         ]);
@@ -57,7 +59,7 @@ const createCoffeeStore = async (req, res) => {
     }
   } else {
     return res.json({
-      message: "method not allowe",
+      message: "method not allowed",
     });
   }
 };
