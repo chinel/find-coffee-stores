@@ -19,7 +19,11 @@ const createCoffeeStore = async (req, res) => {
   if (req.method === "POST") {
     //find coffee store
     try {
-      const { id, name, address, neighbourhood, voting, imgUrl } = req.body;
+      const { name, address, neighbourhood, voting, imgUrl } = req.body;
+      if (!name) {
+        return res.status(400).json({ message: "Name is required." });
+      }
+
       const findCoffeeStoreRecord = await table
         .select({
           filterByFormula: `AND(name = "${name}", address = "${address}")`,
@@ -54,8 +58,10 @@ const createCoffeeStore = async (req, res) => {
         });
       }
     } catch (error) {
-      console.log("Error Finding Store...", error);
-      return res.status(500).json({ message: "Error finding store", error });
+      console.log("Error creating or finding Store...", error);
+      return res
+        .status(500)
+        .json({ message: "Error creating or finding Store", error });
     }
   } else {
     return res.json({
