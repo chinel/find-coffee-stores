@@ -1,21 +1,6 @@
-import { formatCoffeeStores } from "../../lib/coffee-stores";
-
-const AIRTABLE_API_TOKEN = process.env.AIRTABLE_API_TOKEN;
-const AIRTABLE_BASE_KEY = process.env.AIRTABLE_BASE_KEY;
-const AIRTABLE_ENDPOINT_URL = process.env.AIRTABLE_ENDPOINT_URL;
-
-const Airtable = require("airtable");
-Airtable.configure({
-  endpointUrl: AIRTABLE_ENDPOINT_URL,
-  apiKey: AIRTABLE_API_TOKEN,
-});
-const base = Airtable.base(AIRTABLE_BASE_KEY);
-const table = base("coffee-stores");
-
-console.log({ table });
+import { formatCoffeeStores, table } from "../../lib/airtable";
 
 const createCoffeeStore = async (req, res) => {
-  console.log({ req });
   if (req.method === "POST") {
     //find coffee store
     try {
@@ -29,8 +14,6 @@ const createCoffeeStore = async (req, res) => {
           filterByFormula: `AND(name = "${name}", address = "${address}")`,
         })
         .firstPage(); // You don't need to pass the callback function, if you want.
-
-      console.log({ findCoffeeStoreRecord });
 
       if (findCoffeeStoreRecord.length !== 0) {
         const records = formatCoffeeStores(findCoffeeStoreRecord);
