@@ -21,8 +21,6 @@ const Home = (props) => {
   // const [coffeeStores, setCoffeeStores] = useState([]);
   const [coffeeStoresError, setCoffeeStoresError] = useState(null);
 
-  console.log({ latLong: state.latLong, locationErrorMessage });
-
   useEffect(() => {
     const getCoffeeStores = async () => {
       const formatLatLong = state.latLong.split(" ").join(",");
