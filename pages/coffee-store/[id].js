@@ -10,7 +10,11 @@ const CoffeeStore = (props) => {
   const router = useRouter();
 
   if (router.isFallback) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <p>Loading...</p>
+      </div>
+    );
   }
 
   const { name, location, imgUrl } = props.coffeeStore;
